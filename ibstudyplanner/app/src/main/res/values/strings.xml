@@ -5,4 +5,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="chooser_subject_label">Choose Your IB Subjects</string>
+    <string name="subject_edit_text_tag">subject_group_</string>
+    <string name="subject_group_1">group_1</string>
 </resources>
