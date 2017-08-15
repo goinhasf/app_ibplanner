@@ -8,4 +8,14 @@
     <string name="chooser_subject_label">Choose Your IB Subjects</string>
     <string name="subject_edit_text_tag">subject_group_</string>
     <string name="subject_group_1">group_1</string>
+    <string name="accept_action_string">Accept</string>
+
+    <!--Strings for subject edit text hint -->
+    <string name="subject_group_1_hint">Group 1 Subject</string>
+    <string name="subject_group_2_hint">Group 2 Subject</string>
+    <string name="subject_group_3_hint">Group 3 Subject</string>
+    <string name="subject_group_4_hint">Group 4 Subject</string>
+    <string name="subject_group_5_hint">Group 5 Subject</string>
+    <string name="subject_group_6_hint">Group 6 Subject</string>
+
 </resources>
