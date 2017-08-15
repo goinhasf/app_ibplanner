@@ -17,5 +17,6 @@
     <string name="subject_group_4_hint">Group 4 Subject</string>
     <string name="subject_group_5_hint">Group 5 Subject</string>
     <string name="subject_group_6_hint">Group 6 Subject</string>
+    <string name="user_profile">Profile</string>
 
 </resources>

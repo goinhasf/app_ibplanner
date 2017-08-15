@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,8 +15,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.kiko.ibstudentplannerapp.IB.IBSubject;
+import com.example.kiko.ibstudentplannerapp.IB.IBUser;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static IBUser mUserInstance;
+    private FloatingActionButton fab;
+    private MenuItem mUserProfileItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +32,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.tb_activity_main);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,6 +48,18 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+    }
+
+    public boolean isUserFirstTime(){
+        if (mUserInstance != null){
+            fab.setVisibility(View.INVISIBLE);
+            return false;
+        } else {
+            fab.setVisibility(View.VISIBLE);
+            return true;
+        }
     }
 
     @Override
@@ -56,6 +76,10 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        mUserProfileItem = menu.findItem(R.id.user_profile);
+        if (isUserFirstTime()){
+            mUserProfileItem.setVisible(false);
+        }
         return true;
     }
 
@@ -67,7 +91,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.user_profile) {
             return true;
         }
 

@@ -1,4 +1,4 @@
-package com.example.kiko.ibstudentplannerapp;
+package com.example.kiko.ibstudentplannerapp.IB;
 
 /**
  * Created by KIKO on 8/15/2017.

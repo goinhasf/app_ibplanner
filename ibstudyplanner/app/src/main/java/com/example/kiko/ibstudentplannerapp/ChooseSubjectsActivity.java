@@ -1,33 +1,20 @@
 package com.example.kiko.ibstudentplannerapp;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.text.Layout;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import com.example.kiko.ibstudentplannerapp.IB.IBSubject;
 
-import javax.security.auth.Subject;
+import java.util.ArrayList;
 
 public class ChooseSubjectsActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -131,6 +118,7 @@ public class ChooseSubjectsActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onClick(View v) {
-        getSubjectData();
+
+
     }
 }
