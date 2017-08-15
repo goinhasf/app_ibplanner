@@ -18,5 +18,6 @@
     <string name="subject_group_5_hint">Group 5 Subject</string>
     <string name="subject_group_6_hint">Group 6 Subject</string>
     <string name="user_profile">Profile</string>
+    <string name="ib_subject_key">ibsubject</string>
 
 </resources>

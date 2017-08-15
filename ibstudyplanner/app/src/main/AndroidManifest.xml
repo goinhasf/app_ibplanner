@@ -21,6 +21,11 @@
         <activity
             android:name=".ChooseSubjectsActivity"
             android:label="@string/chooser_subject_label"></activity>
+
+        <provider
+            android:authorities="com.example.kiko.ibstudentplannerapp"
+            android:name=".IBPlannerUtils.IBPlannerContentProvider"
+            android:exported="false"/>
     </application>
 
 </manifest>
