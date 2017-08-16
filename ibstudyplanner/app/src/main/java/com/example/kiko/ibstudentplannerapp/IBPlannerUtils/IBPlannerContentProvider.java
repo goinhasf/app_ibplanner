@@ -21,7 +21,6 @@ public class IBPlannerContentProvider extends ContentProvider {
 
     private IBDbHelper dbhelper;
     private SQLiteDatabase db;
-    private static UriMatcher matcher;
 
     public static final int CODE_SUBJECTS = 100;
     public static final int CODE_SUBJECT = 101;
@@ -38,7 +37,7 @@ public class IBPlannerContentProvider extends ContentProvider {
     private static UriMatcher buildUriMatcher(){
         UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         matcher.addURI(IBPlannerContract.AUTHORITY, IBPlannerContract.UserIBDataEntry.CONTENT_PATH, CODE_SUBJECTS);
-        matcher.addURI(IBPlannerContract.AUTHORITY, IBPlannerContract.UserIBDataEntry.CONTENT_PATH + "#", CODE_SUBJECT);
+        matcher.addURI(IBPlannerContract.AUTHORITY, IBPlannerContract.UserIBDataEntry.CONTENT_PATH + "/#", CODE_SUBJECT);
 
         return matcher;
     }
@@ -46,16 +45,15 @@ public class IBPlannerContentProvider extends ContentProvider {
     @Nullable
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-
-        Cursor cursor = null;
-        if (uri == IBPlannerContract.UserIBDataEntry.CONTENT_URI) {
-            cursor = db.query(IBPlannerContract.UserIBDataEntry.TABLE_NAME,
+        db = dbhelper.getReadableDatabase();
+        switch (mUriMatcher.match(uri)) {
+            case CODE_SUBJECTS:
+                return db.query(IBPlannerContract.UserIBDataEntry.TABLE_NAME,
                     projection, selection, selectionArgs, null, null, sortOrder);
-        } else {
-            throw new IllegalArgumentException("URI does not exist: " + uri.toString());
+            default:
+                throw new IllegalArgumentException("URI does not exist: " + uri.toString());
         }
 
-        return cursor;
     }
 
     @Nullable
@@ -67,13 +65,17 @@ public class IBPlannerContentProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(Uri uri, ContentValues values) {
+
         Uri newUri = uri;
-        if (uri == IBPlannerContract.UserIBDataEntry.CONTENT_URI) {
+
+        switch (mUriMatcher.match(uri)) {
+            case CODE_SUBJECTS:
             db.insert(IBPlannerContract.UserIBDataEntry.TABLE_NAME,
                     null, values);
             return newUri.buildUpon().appendPath(Integer.toString(values.getAsInteger(IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_NUMBER_COLUMN))).build();
-        } else {
-            throw new IllegalArgumentException("URI does not exist: " + uri.toString());
+
+            default:
+                throw new IllegalArgumentException("URI does not exist: " + uri.toString());
         }
     }
 
@@ -81,36 +83,47 @@ public class IBPlannerContentProvider extends ContentProvider {
     public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
         db = dbhelper.getWritableDatabase();
         int count = 0;
-        if (uri == IBPlannerContract.UserIBDataEntry.CONTENT_URI) {
-            for (ContentValues contentValues : values){
-                db.insert(IBPlannerContract.UserIBDataEntry.TABLE_NAME, null, contentValues);
-                count++;
-            }
-            return count;
-        } else {
-            throw new IllegalArgumentException("URI does not exist: " + uri.toString());
+        switch (mUriMatcher.match(uri)){
+            case CODE_SUBJECTS:
+
+                db.beginTransaction();
+                try {
+                    for (ContentValues contentValues : values) {
+                        long _id = db.insert(IBPlannerContract.UserIBDataEntry.TABLE_NAME, null, contentValues);
+                        if (_id > 0)
+                            count++;
+                    }
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }
+
+                if (count > 0) {
+                    getContext().getContentResolver().notifyChange(uri, null);
+                }
         }
+        return count;
 
     }
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        db = dbhelper.getWritableDatabase();
-        if (uri == IBPlannerContract.UserIBDataEntry.CONTENT_URI){
-            return db.delete(IBPlannerContract.UserIBDataEntry.TABLE_NAME, selection, selectionArgs);
-        } else {
-            throw new IllegalArgumentException("URI does not exist: " + uri.toString());
+        switch (mUriMatcher.match(uri)) {
+            case CODE_SUBJECTS:
+                return db.delete(IBPlannerContract.UserIBDataEntry.TABLE_NAME, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("URI does not exist: " + uri.toString());
         }
 
     }
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        db = dbhelper.getWritableDatabase();
-        if (uri == IBPlannerContract.UserIBDataEntry.CONTENT_URI){
-            return db.update(IBPlannerContract.UserIBDataEntry.TABLE_NAME, values, selection, selectionArgs);
-        } else {
-            throw new IllegalArgumentException("URI does not exist: " + uri.toString());
+        switch (mUriMatcher.match(uri)) {
+            case CODE_SUBJECTS:
+                return db.update(IBPlannerContract.UserIBDataEntry.TABLE_NAME, values, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("URI does not exist: " + uri.toString());
         }
     }
 }

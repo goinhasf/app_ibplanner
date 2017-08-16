@@ -55,6 +55,7 @@ public class ChooseSubjectsActivity extends AppCompatActivity implements View.On
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         createSubjectChooser();
         mContentView = findViewById(R.id.activity_chooser_layout);
+        dbHelper = new IBDbHelper(this);
         db = dbHelper.getWritableDatabase();
     }
 

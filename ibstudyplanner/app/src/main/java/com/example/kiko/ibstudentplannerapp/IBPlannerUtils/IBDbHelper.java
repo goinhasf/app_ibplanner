@@ -21,10 +21,10 @@ public class IBDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + IBPlannerContract.UserIBDataEntry.TABLE_NAME + " (" +
-                IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_NUMBER_COLUMN + " INTEGER NOT NULL PRIMARY KEY" +
-                IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_NAME_COLUMN + " TEXT NOT NULL, " +
-                IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_LEVEL_COLUMN + " TEXT NOT NULL " +
-                IBPlannerContract.UserIBDataEntry._ID + " ASC");
+                IBPlannerContract.UserIBDataEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_NUMBER_COLUMN + " INTEGER NOT NULL, " +
+                IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_NAME_COLUMN + " REAL NOT NULL, " +
+                IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_LEVEL_COLUMN + " REAL NOT NULL)");
 
     }
 

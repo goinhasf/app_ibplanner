@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<android.support.design.widget.TabLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tab_layout"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="@color/colorPrimary"
+    android:clickable="false"
+    tools:context=".MainActivity">
 
-</LinearLayout>
+    <android.support.design.widget.TabItem
+        android:id="@+id/tab_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:icon="@drawable/ic_home_black_24dp" />
+
+    <android.support.design.widget.TabItem
+        android:id="@+id/tab_calendar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+
+        android:icon="@drawable/ic_date_range_black_24dp" />
+
+    <android.support.design.widget.TabItem
+        android:id="@+id/tab_task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:icon="@drawable/ic_assignment_black_24dp"
+        android:onClick="clickTask" />
+</android.support.design.widget.TabLayout>
+
+
