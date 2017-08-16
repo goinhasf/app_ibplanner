@@ -96,42 +96,38 @@ public class ChooseSubjectsActivity extends AppCompatActivity implements View.On
 
     }
 
-    private ArrayList<IBSubject> getSubjectData(){
-        ArrayList<IBSubject> subjectsArray = new ArrayList<IBSubject>();
+    private String checkedLevelOnRadioGroup(RadioGroup radioGroup){
+        RadioButton checkedLevel = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
+        return checkedLevel.getText().toString();
+    }
+
+    private ContentValues[] getSubjectData(){
+        ContentValues[] contentValuesArray = new ContentValues[6];
         for (int i = 0; i < 6; i++){
-            LinearLayout content = (LinearLayout) mContentView;
-            View rowView = content.getChildAt(i);
-            if (rowView instanceof LinearLayout){
+            ContentValues contentValues = new ContentValues();
+            LinearLayout layout = (LinearLayout) mContentView;
+            LinearLayout subjectRow = (LinearLayout) layout.getChildAt(i);
+            EditText editText = (EditText) subjectRow.getChildAt(0);
+            String subjectName = editText.getText().toString();
+            String level = checkedLevelOnRadioGroup((RadioGroup) subjectRow.getChildAt(1));
 
-                LinearLayout subjectRowView = (LinearLayout) rowView;
-                final EditText subjectEditText = (EditText) subjectRowView.getChildAt(0);
-                RadioGroup radioGroup = (RadioGroup) subjectRowView.getChildAt(1);
-                RadioButton checkedRadioButton = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
-                int group = i+1;
-                String subjectName = subjectEditText.getText().toString();
-                String level = checkedRadioButton.getText().toString();
-                if (subjectName.isEmpty() || subjectName.length() < 2){
-                    try {
-                        throw new Exception("Subject Name cannot be empty");
-                    } catch (Exception e) {
-                        Snackbar.make(mContentView, "Subject Name cannot be empty", Snackbar.LENGTH_LONG).show();
-                    }
-                } else {
-                    IBSubject newSubject = new IBSubject(group, subjectName, level);
-                    subjectsArray.add(newSubject);
-                    Snackbar.make(mContentView, "Successfully Gathered Data from UI", Snackbar.LENGTH_LONG).show();
-                }
+            contentValues.put(IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_NUMBER_COLUMN, i+1);
+            contentValues.put(IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_NAME_COLUMN, subjectName);
+            contentValues.put(IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_LEVEL_COLUMN, level);
 
-            }
+            contentValuesArray[i] = contentValues;
         }
 
-        return subjectsArray;
+        return contentValuesArray;
+
 
     }
 
     @Override
     public void onClick(View v) {
-        
+        Intent intent = new Intent(this, MainActivity.class);
+        getContentResolver().bulkInsert(IBPlannerContract.UserIBDataEntry.CONTENT_URI, getSubjectData());
+        startActivity(intent);
 
     }
 
