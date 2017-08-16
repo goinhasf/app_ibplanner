@@ -4,14 +4,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -50,22 +46,23 @@ public class MainActivity extends AppCompatActivity
     private static final int TAB_CALENDAR_POSITION = 1;
     private static final int TAB_TASK_POSITION = 2;
 
+    private static int mCurrentFragmentPosition = 0;
+
     private static IBUser mUserInstance;
     private FloatingActionButton fab;
     private MenuItem mUserProfileItem;
 
     private TabLayout mTabLayout;
-
-    private static View mMainView;
-    private static View mContentView;
+    private ViewGroup mViewGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mMainView = findViewById(R.id.content_main);
-        mContentView = findViewById(R.id.main_layout);
-        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        mTabLayout = (TabLayout) findViewById(R.id.bottom_navigation_bar);
+        mViewGroup = (ViewGroup) findViewById(R.id.content_layout);
+
+        //getLayoutInflater().inflate(R.layout.home_fragment_layout, mViewGroup, false);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.tb_activity_main);
         setSupportActionBar(toolbar);
@@ -89,22 +86,22 @@ public class MainActivity extends AppCompatActivity
 
         getSupportLoaderManager().initLoader(LOADER_ID, null, this);
 
-        getLayoutInflater().inflate(R.layout.tab_layout, (ViewGroup) mContentView, true);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-
-       tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+       mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
            @Override
            public void onTabSelected(TabLayout.Tab tab) {
                switch (tab.getPosition()){
                    case TAB_HOME_POSITION:
+                       getLayoutInflater().inflate(R.layout.home_fragment_layout, mViewGroup, false);
                        Toast.makeText(getApplicationContext(), "Home", Toast.LENGTH_SHORT).show();
                        break;
 
                    case TAB_CALENDAR_POSITION:
+                       getLayoutInflater().inflate(R.layout.calendar_fragment_layout, mViewGroup, false);
                        Toast.makeText(getApplicationContext(), "Calendar", Toast.LENGTH_SHORT).show();
                        break;
 
                    case TAB_TASK_POSITION:
+                       getLayoutInflater().inflate(R.layout.task_fragment_layout, mViewGroup, false);
                        Toast.makeText(getApplicationContext(), "Task", Toast.LENGTH_SHORT).show();
                        break;
                }
@@ -226,10 +223,10 @@ public class MainActivity extends AppCompatActivity
             }
             mCursor.moveToFirst();
             mUserInstance.setUserIBSubjects(arrayOfSubjects);
-            Log.e(TAG, "User object SUCCESSFULLY initialized");
+            Log.e(TAG, "User object SUCCESSFULLY initialized.");
         } else {
             isUserFirstTime();
-            Log.e(TAG, "User object NOT initialized");
+            Log.e(TAG, "User object NOT initialized.");
         }
     }
 
