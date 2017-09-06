@@ -6,4 +6,5 @@
     <color name="colorAddButFill">#ffffff</color>
     <color name="error_red">#d50000</color>
     <color name="accept_green">#388e3c</color>
+    <color name="black">#000000</color>
 </resources>

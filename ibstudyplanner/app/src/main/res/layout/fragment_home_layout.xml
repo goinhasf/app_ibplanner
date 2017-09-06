@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <TextView
+        android:id="@+id/tv_your_stats_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/your_stats"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textSize="24sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="16dp" />
+
+    <TextView
+        android:id="@+id/tv_username_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_your_stats_label"
+        app:layout_constraintLeft_toRightOf="@+id/tv_your_stats_label"
+        tools:text="User's Name"
+        app:layout_constraintTop_toTopOf="@+id/tv_your_stats_label"
+        app:layout_constraintVertical_bias="0.571"
+        android:layout_marginStart="16dp" />
+
+</android.support.constraint.ConstraintLayout>

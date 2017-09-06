@@ -2,9 +2,16 @@ package com.example.kiko.ibstudentplannerapp;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.internal.BottomNavigationItemView;
+import android.support.design.internal.BottomNavigationMenu;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -26,7 +33,7 @@ import com.example.kiko.ibstudentplannerapp.IB.IBUser;
 import com.example.kiko.ibstudentplannerapp.IBPlannerUtils.IBPlannerContract;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor> {
+        implements NavigationView.OnNavigationItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor>, BottomNavigationView.OnNavigationItemSelectedListener{
 
     private static final String TAG = ".MainActivity";
     private static final int LOADER_ID = 0;
@@ -52,17 +59,15 @@ public class MainActivity extends AppCompatActivity
     private FloatingActionButton fab;
     private MenuItem mUserProfileItem;
 
-    private TabLayout mTabLayout;
-    private ViewGroup mViewGroup;
+    private BottomNavigationView bottomNavigationView;
+    private HomeFragment homeFragment;
+    private CalendarFragment calendarFragment;
+    private TaskFragment taskFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mTabLayout = (TabLayout) findViewById(R.id.bottom_navigation_bar);
-        mViewGroup = (ViewGroup) findViewById(R.id.content_layout);
-
-        //getLayoutInflater().inflate(R.layout.home_fragment_layout, mViewGroup, false);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.tb_activity_main);
         setSupportActionBar(toolbar);
@@ -86,37 +91,28 @@ public class MainActivity extends AppCompatActivity
 
         getSupportLoaderManager().initLoader(LOADER_ID, null, this);
 
-       mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-           @Override
-           public void onTabSelected(TabLayout.Tab tab) {
-               switch (tab.getPosition()){
-                   case TAB_HOME_POSITION:
-                       getLayoutInflater().inflate(R.layout.home_fragment_layout, mViewGroup, false);
-                       Toast.makeText(getApplicationContext(), "Home", Toast.LENGTH_SHORT).show();
-                       break;
+        homeFragment = new HomeFragment();
+        calendarFragment = new CalendarFragment();
+        taskFragment = new TaskFragment();
 
-                   case TAB_CALENDAR_POSITION:
-                       getLayoutInflater().inflate(R.layout.calendar_fragment_layout, mViewGroup, false);
-                       Toast.makeText(getApplicationContext(), "Calendar", Toast.LENGTH_SHORT).show();
-                       break;
+        switchFragment(homeFragment);
 
-                   case TAB_TASK_POSITION:
-                       getLayoutInflater().inflate(R.layout.task_fragment_layout, mViewGroup, false);
-                       Toast.makeText(getApplicationContext(), "Task", Toast.LENGTH_SHORT).show();
-                       break;
-               }
-           }
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemID = item.getItemId();
+                if (itemID == R.id.tab_home) {
+                    switchFragment(homeFragment);
+                } else if (itemID == R.id.tab_calendar) {
+                    switchFragment(calendarFragment);
+                } else if (itemID == R.id.tab_task) {
+                    switchFragment(taskFragment);
 
-           @Override
-           public void onTabUnselected(TabLayout.Tab tab) {
-
-           }
-
-           @Override
-           public void onTabReselected(TabLayout.Tab tab) {
-                onTabSelected(tab);
-           }
-       });
+                }
+                return true;
+            }
+        });
 
     }
 
@@ -209,7 +205,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mCursor = data;
-        if (mCursor != null){
+        if (mCursor != null|| !mCursor.moveToNext()){
+            mCursor.moveToFirst();
             mUserInstance = new IBUser("Name");
             IBSubject[] arrayOfSubjects = new IBSubject[6];
             int arrayIndex = 0;
@@ -234,5 +231,13 @@ public class MainActivity extends AppCompatActivity
     public void onLoaderReset(Loader<Cursor> loader) {
         mCursor = null;
     }
+
+
+
+    private void switchFragment(Fragment fragment){
+        FragmentManager manager = getSupportFragmentManager();
+        manager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+    }
+
 
 }
