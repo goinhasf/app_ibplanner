@@ -22,6 +22,14 @@
     <string name="bottom_menu_home">Home</string>
     <string name="bottom_menu_calendar">Calendar</string>
     <string name="bottom_menu_task">Tasks</string>
-    <string name="your_stats">YOUR STATS</string>
+    <string name="next_study_session_time_label">Next Study Session:</string>
+    <string name="assignments">Assignments</string>
+    <string name="assignment">Assignment</string>
+    <string name="revision">revision</string>
+    <string name="revision_time">Revision Time:</string>
+    <string name="date_due_label">Date due:</string>
+    <string name="details">Details</string>
+    <string name="on_the_label">On the:</string>
+    <string name="at_label">At:</string>
 
 </resources>

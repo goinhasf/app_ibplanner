@@ -8,6 +8,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 
 /**
  * Created by djkik on 9/4/2017.
@@ -15,6 +19,9 @@ import android.view.ViewGroup;
 
 public class HomeFragment extends Fragment {
 
+    private boolean dropDownMode;
+    private ImageButton dropDownButton;
+    private FrameLayout dropDownContainer;
 
     public HomeFragment() {
     }
@@ -27,6 +34,7 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
+
 
 
 }
