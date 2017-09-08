@@ -31,5 +31,8 @@
     <string name="details">Details</string>
     <string name="on_the_label">On the:</string>
     <string name="at_label">At:</string>
+    <string name="refresh">Refresh</string>
+    <string name="higher_level">HL</string>
+    <string name="standard_level">SL</string>
 
 </resources>

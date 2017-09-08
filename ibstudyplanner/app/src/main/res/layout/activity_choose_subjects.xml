@@ -1,252 +1,258 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_chooser_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="@dimen/activity_margin"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical"
-    tools:context="com.example.kiko.ibstudentplannerapp.ChooseSubjectsActivity">
-
+    android:layout_height="match_parent">
     <LinearLayout
+        android:id="@+id/activity_chooser_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:layout_margin="@dimen/activity_margin"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context="com.example.kiko.ibstudentplannerapp.ChooseSubjectsActivity">
 
-        <EditText
-            android:id="@+id/et_subject_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:hint="@string/subject_group_1_hint"
-            android:inputType="text" />
-
-        <RadioGroup
-            android:id="@+id/rg_subject_level_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
             android:layout_weight="1"
-            android:divider="@color/colorPrimaryDark"
             android:orientation="horizontal">
 
-            <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/rb_hl_1"
+            <EditText
+                android:id="@+id/et_subject_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="HL" />
+                android:layout_weight="2"
+                android:hint="@string/subject_group_1_hint"
+                android:inputType="text" />
 
-            <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/rb_sl_1"
+            <RadioGroup
+                android:id="@+id/rg_subject_level_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SL" />
-        </RadioGroup>
-    </LinearLayout>
+                android:layout_gravity="top"
+                android:layout_weight="1"
+                android:divider="@color/colorPrimaryDark"
+                android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/rb_hl_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/higher_level" />
 
-        <EditText
-            android:id="@+id/et_subject_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:hint="@string/subject_group_2_hint"
-            android:inputType="text" />
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/rb_sl_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/standard_level" />
+            </RadioGroup>
+        </LinearLayout>
 
-        <RadioGroup
-            android:id="@+id/rg_subject_level_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
             android:layout_weight="1"
-            android:divider="@color/colorPrimaryDark"
             android:orientation="horizontal">
 
-            <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/rb_hl_2"
+            <EditText
+                android:id="@+id/et_subject_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="HL" />
+                android:layout_weight="2"
+                android:hint="@string/subject_group_2_hint"
+                android:inputType="text" />
 
-            <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/rb_sl_2"
+            <RadioGroup
+                android:id="@+id/rg_subject_level_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SL" />
-        </RadioGroup>
-    </LinearLayout>
+                android:layout_gravity="top"
+                android:layout_weight="1"
+                android:divider="@color/colorPrimaryDark"
+                android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/rb_hl_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/higher_level" />
 
-        <EditText
-            android:id="@+id/et_subject_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:hint="@string/subject_group_3_hint"
-            android:inputType="text" />
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/rb_sl_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/standard_level" />
+            </RadioGroup>
+        </LinearLayout>
 
-        <RadioGroup
-            android:id="@+id/rg_subject_level_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
             android:layout_weight="1"
-            android:divider="@color/colorPrimaryDark"
             android:orientation="horizontal">
 
-            <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/rb_hl_3"
+            <EditText
+                android:id="@+id/et_subject_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="HL" />
+                android:layout_weight="2"
+                android:hint="@string/subject_group_3_hint"
+                android:inputType="text" />
 
-            <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/rb_sl_3"
+            <RadioGroup
+                android:id="@+id/rg_subject_level_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SL" />
-        </RadioGroup>
-    </LinearLayout>
+                android:layout_gravity="top"
+                android:layout_weight="1"
+                android:divider="@color/colorPrimaryDark"
+                android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/rb_hl_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/higher_level" />
 
-        <EditText
-            android:id="@+id/et_subject_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:hint="@string/subject_group_4_hint"
-            android:inputType="text" />
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/rb_sl_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/standard_level" />
+            </RadioGroup>
+        </LinearLayout>
 
-        <RadioGroup
-            android:id="@+id/rg_subject_level_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
             android:layout_weight="1"
-            android:divider="@color/colorPrimaryDark"
             android:orientation="horizontal">
 
-            <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/rb_hl_4"
+            <EditText
+                android:id="@+id/et_subject_4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="HL" />
+                android:layout_weight="2"
+                android:hint="@string/subject_group_4_hint"
+                android:inputType="text" />
 
-            <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/rb_sl_4"
+            <RadioGroup
+                android:id="@+id/rg_subject_level_4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SL" />
-        </RadioGroup>
-    </LinearLayout>
+                android:layout_gravity="top"
+                android:layout_weight="1"
+                android:divider="@color/colorPrimaryDark"
+                android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/rb_hl_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/higher_level" />
 
-        <EditText
-            android:id="@+id/et_subject_5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:hint="@string/subject_group_5_hint"
-            android:inputType="text" />
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/rb_sl_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/standard_level" />
+            </RadioGroup>
+        </LinearLayout>
 
-        <RadioGroup
-            android:id="@+id/rg_subject_level_5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
             android:layout_weight="1"
-            android:divider="@color/colorPrimaryDark"
             android:orientation="horizontal">
 
-            <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/rb_hl_5"
+            <EditText
+                android:id="@+id/et_subject_5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="HL" />
+                android:layout_weight="2"
+                android:hint="@string/subject_group_5_hint"
+                android:inputType="text" />
 
-            <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/rb_sl_5"
+            <RadioGroup
+                android:id="@+id/rg_subject_level_5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SL" />
-        </RadioGroup>
-    </LinearLayout>
+                android:layout_gravity="top"
+                android:layout_weight="1"
+                android:divider="@color/colorPrimaryDark"
+                android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/rb_hl_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/higher_level" />
 
-        <EditText
-            android:id="@+id/et_subject_6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:hint="@string/subject_group_6_hint"
-            android:inputType="text" />
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/rb_sl_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/standard_level" />
+            </RadioGroup>
+        </LinearLayout>
 
-        <RadioGroup
-            android:id="@+id/rg_subject_level_6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
             android:layout_weight="1"
-            android:divider="@color/colorPrimaryDark"
             android:orientation="horizontal">
 
-            <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/rb_hl_6"
+            <EditText
+                android:id="@+id/et_subject_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="HL" />
+                android:layout_weight="2"
+                android:hint="@string/subject_group_6_hint"
+                android:inputType="text" />
 
-            <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/rb_sl_6"
+            <RadioGroup
+                android:id="@+id/rg_subject_level_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SL" />
-        </RadioGroup>
+                android:layout_gravity="top"
+                android:layout_weight="1"
+                android:divider="@color/colorPrimaryDark"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/rb_hl_6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/higher_level" />
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/rb_sl_6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/standard_level" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/bt_accept_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/accept_action_string"
+            android:backgroundTint="@color/accept_green"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:visibility="visible" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/bt_accept_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/accept_action_string"
-        android:backgroundTint="@color/accept_green"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:visibility="visible" />
-</LinearLayout>
 
 
+</ScrollView>

@@ -2,6 +2,7 @@ package com.example.kiko.ibstudentplannerapp;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.util.Log;
@@ -30,30 +32,43 @@ import android.widget.Toast;
 
 import com.example.kiko.ibstudentplannerapp.IB.IBSubject;
 import com.example.kiko.ibstudentplannerapp.IB.IBUser;
+import com.example.kiko.ibstudentplannerapp.IBPlannerUtils.FakeData;
+import com.example.kiko.ibstudentplannerapp.IBPlannerUtils.IBDbHelper;
 import com.example.kiko.ibstudentplannerapp.IBPlannerUtils.IBPlannerContract;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor>, BottomNavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor>, BottomNavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = ".MainActivity";
     private static final int LOADER_ID = 0;
+    private static final String RESTART_KEY = "restart_key";
     private Cursor mCursor;
+    private Loader<Cursor> mCursorLoader;
 
-    private static final String[] PROJECTION = {
-            IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_NUMBER_COLUMN,
-            IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_NAME_COLUMN,
-            IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_LEVEL_COLUMN
+    public static final String SUBJECTS_NAME_KEY = "subjects";
+    public static final String SUBJECTS_LEVEL_KEY = "levels";
+
+    public static final String username = FakeData.USERNAME;
+
+    public static String[] subjectNameKEY = {
+            IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_1_NAME_COLUMN,
+            IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_2_NAME_COLUMN,
+            IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_3_NAME_COLUMN,
+            IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_4_NAME_COLUMN,
+            IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_5_NAME_COLUMN,
+            IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_6_NAME_COLUMN
     };
 
-    private static final int IB_SUBJECT_GROUP_NUMBER_COLUMN_INDEX = 0;
-    private static final int IB_SUBJECT_GROUP_NAME_COLUMN_INDEX = 1;
-    private static final int IB_SUBJECT_GROUP_LEVEL_COLUMN_INDEX = 2;
+    public static String[] subjectLevelKEY = {
+            IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_1_LEVEL_COLUMN,
+            IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_2_LEVEL_COLUMN,
+            IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_3_LEVEL_COLUMN,
+            IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_4_LEVEL_COLUMN,
+            IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_5_LEVEL_COLUMN,
+            IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_6_LEVEL_COLUMN
+    };
 
-    private static final int TAB_HOME_POSITION = 0;
-    private static final int TAB_CALENDAR_POSITION = 1;
-    private static final int TAB_TASK_POSITION = 2;
-
-    private static int mCurrentFragmentPosition = 0;
+    private static final int IB_SUBJECT_USERNAME_COLUMN_INDEX = 0;
 
     private static IBUser mUserInstance;
     private FloatingActionButton fab;
@@ -89,7 +104,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+        mCursorLoader = getSupportLoaderManager().initLoader(LOADER_ID, null, this);
 
         homeFragment = new HomeFragment();
         calendarFragment = new CalendarFragment();
@@ -156,7 +171,32 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.user_profile) {
+            Intent intent = new Intent(this, ChooseSubjectsActivity.class);
+            Bundle bundle = new Bundle();
+            String[] subjectNames = new String[6];
+            String[] subjectLevels = new String[6];
+            int index = 0;
+            for (IBSubject subject : mUserInstance.getUserIBSubjects()) {
+                subjectNames[index] = subject.getSubjectName();
+                subjectLevels[index] = subject.getLevel();
+                index++;
+            }
+            bundle.putStringArray(SUBJECTS_NAME_KEY, subjectNames);
+            bundle.putStringArray(SUBJECTS_LEVEL_KEY, subjectLevels);
+            intent.putExtras(bundle);
+            startActivity(intent);
             return true;
+
+        } else if (id == R.id.refresh_menu_item){
+            FakeData.deleteAllData(this);
+            if (mCursorLoader != null) {
+                mCursorLoader.reset();
+            }
+
+            mUserInstance = null;
+            isUserFirstTime();
+            mUserProfileItem.setVisible(false);
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -190,12 +230,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
+        IBDbHelper helper = new IBDbHelper(this);
+        SQLiteDatabase db = helper.getReadableDatabase();
+
         switch (id) {
             case LOADER_ID:
-                return new CursorLoader(this, IBPlannerContract.UserIBDataEntry.CONTENT_URI, PROJECTION,
-                    null,
-                    null,
-                    IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_NUMBER_COLUMN + " ASC");
+                return new CursorLoader(this, IBPlannerContract.UserIBDataEntry.CONTENT_URI, null,
+                        null,
+                        null,
+                        IBPlannerContract.UserIBDataEntry._ID + " ASC");
 
             default:
                 throw new RuntimeException("Loader Not Implemented: " + LOADER_ID);
@@ -204,22 +247,22 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        mCursor = data;
-        if (mCursor != null|| !mCursor.moveToNext()){
-            mCursor.moveToFirst();
-            mUserInstance = new IBUser("Name");
-            IBSubject[] arrayOfSubjects = new IBSubject[6];
-            int arrayIndex = 0;
-            while (mCursor.moveToNext() && arrayIndex < 6){
-                int group = mCursor.getInt(IB_SUBJECT_GROUP_NUMBER_COLUMN_INDEX);
-                String name = mCursor.getString(IB_SUBJECT_GROUP_NAME_COLUMN_INDEX);
-                String level = mCursor.getString(IB_SUBJECT_GROUP_LEVEL_COLUMN_INDEX);
-                IBSubject subject = new IBSubject(group, name, level);
-                arrayOfSubjects[arrayIndex] = subject;
-                arrayIndex++;
+
+        if (data != null || data.getCount() == 0) {
+            mCursor = data;
+            while (mCursor.moveToNext()) {
+                mUserInstance = new IBUser();
+                mUserInstance.setName(mCursor.getString(1));
+                IBSubject[] subjects = new IBSubject[6];
+                Log.d(TAG, Integer.toString(mCursor.getCount()));
+                for (int i = 0; i < 6; i++) {
+                    String subjectName = mCursor.getString(mCursor.getColumnIndex(subjectNameKEY[i]));
+                    String level = mCursor.getString(mCursor.getColumnIndex(subjectLevelKEY[i]));
+                    subjects[i] = new IBSubject(i, subjectName, level);
+                }
+                mUserInstance.setUserIBSubjects(subjects);
             }
-            mCursor.moveToFirst();
-            mUserInstance.setUserIBSubjects(arrayOfSubjects);
+            mCursor.close();
             Log.e(TAG, "User object SUCCESSFULLY initialized.");
         } else {
             isUserFirstTime();
@@ -233,8 +276,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-    private void switchFragment(Fragment fragment){
+    private void switchFragment(Fragment fragment) {
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
     }

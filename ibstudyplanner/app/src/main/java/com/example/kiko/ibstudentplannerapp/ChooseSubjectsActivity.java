@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -25,7 +27,13 @@ import com.example.kiko.ibstudentplannerapp.IBPlannerUtils.IBPlannerContract;
 
 import java.util.ArrayList;
 
-public class ChooseSubjectsActivity extends AppCompatActivity implements View.OnClickListener{
+public class ChooseSubjectsActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final String HL = "HL";
+    private static final String SL = "SL";
+
+    private String[] subjectNames;
+    private String[] subjectLevels;
 
     private View mContentView;
 
@@ -48,15 +56,69 @@ public class ChooseSubjectsActivity extends AppCompatActivity implements View.On
     private SQLiteDatabase db;
     private IBDbHelper dbHelper;
 
+    private String[] getSubjectNames() {
+        String[] subjectNames = {
+                mSubject1EditText.getText().toString(),
+                mSubject2EditText.getText().toString(),
+                mSubject3EditText.getText().toString(),
+                mSubject4EditText.getText().toString(),
+                mSubject5EditText.getText().toString(),
+                mSubject6EditText.getText().toString(),
+        };
+
+        return subjectNames;
+    }
+
+    private String[] getSubjectLevels() {
+        String[] subjectLevels = {
+                checkedLevelOnRadioGroup(mSubject1RadioGroup),
+                checkedLevelOnRadioGroup(mSubject2RadioGroup),
+                checkedLevelOnRadioGroup(mSubject3RadioGroup),
+                checkedLevelOnRadioGroup(mSubject4RadioGroup),
+                checkedLevelOnRadioGroup(mSubject5RadioGroup),
+                checkedLevelOnRadioGroup(mSubject6RadioGroup),
+        };
+
+        return subjectLevels;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_choose_subjects);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         createSubjectChooser();
         mContentView = findViewById(R.id.activity_chooser_layout);
         dbHelper = new IBDbHelper(this);
         db = dbHelper.getWritableDatabase();
+
+        if (getIntent() != null) {
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null) {
+                subjectNames = bundle.getStringArray(MainActivity.SUBJECTS_NAME_KEY);
+                subjectLevels = bundle.getStringArray(MainActivity.SUBJECTS_LEVEL_KEY);
+
+                if (subjectNames != null && subjectLevels != null) {
+                    mSubject1EditText.setText(subjectNames[0]);
+                    mSubject2EditText.setText(subjectNames[1]);
+                    mSubject3EditText.setText(subjectNames[2]);
+                    mSubject4EditText.setText(subjectNames[3]);
+                    mSubject5EditText.setText(subjectNames[4]);
+                    mSubject6EditText.setText(subjectNames[5]);
+                    checkRadioButton(mSubject1RadioGroup, subjectLevels[0]);
+                    checkRadioButton(mSubject2RadioGroup, subjectLevels[1]);
+                    checkRadioButton(mSubject3RadioGroup, subjectLevels[2]);
+                    checkRadioButton(mSubject4RadioGroup, subjectLevels[3]);
+                    checkRadioButton(mSubject5RadioGroup, subjectLevels[4]);
+                    checkRadioButton(mSubject6RadioGroup, subjectLevels[5]);
+                } else {
+                    throw new NullPointerException("Bundle data is null");
+                }
+            }
+
+
+        }
     }
 
     @Override
@@ -67,7 +129,7 @@ public class ChooseSubjectsActivity extends AppCompatActivity implements View.On
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemID = item.getItemId();
-        if (itemID == android.R.id.home){
+        if (itemID == android.R.id.home) {
             Intent intent = new Intent(this, MainActivity.class);
             supportNavigateUpTo(intent);
             return true;
@@ -97,40 +159,50 @@ public class ChooseSubjectsActivity extends AppCompatActivity implements View.On
 
     }
 
-    private String checkedLevelOnRadioGroup(RadioGroup radioGroup){
+    private String checkedLevelOnRadioGroup(RadioGroup radioGroup) {
         RadioButton checkedLevel = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
         return checkedLevel.getText().toString();
     }
 
-    private ContentValues[] getSubjectData(){
-        ContentValues[] contentValuesArray = new ContentValues[6];
-        for (int i = 0; i < 6; i++){
-            ContentValues contentValues = new ContentValues();
-            LinearLayout layout = (LinearLayout) mContentView;
-            LinearLayout subjectRow = (LinearLayout) layout.getChildAt(i);
-            EditText editText = (EditText) subjectRow.getChildAt(0);
-            String subjectName = editText.getText().toString();
-            String level = checkedLevelOnRadioGroup((RadioGroup) subjectRow.getChildAt(1));
+    private void checkRadioButton(RadioGroup group, String level){
+        if (level.equals(HL)) {
+            RadioButton button = (RadioButton) group.getChildAt(0);
+            button.setChecked(true);
+        } else if (level.equals(SL)){
+            RadioButton button = (RadioButton) group.getChildAt(1);
+            button.setChecked(true);
+        } else {
+            throw new IllegalArgumentException("Bad subject level data for RadioButtons. Level received " + level);
+        }
+    }
 
-            contentValues.put(IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_NUMBER_COLUMN, i+1);
-            contentValues.put(IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_NAME_COLUMN, subjectName);
-            contentValues.put(IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_LEVEL_COLUMN, level);
+    private ContentValues getSubjectData() {
+        ContentValues contentValues = new ContentValues();
 
-            contentValuesArray[i] = contentValues;
+        for (int i = 0; i < 6; i++) {
+            contentValues.put(MainActivity.subjectNameKEY[i], getSubjectNames()[i]);
+            contentValues.put(MainActivity.subjectLevelKEY[i], getSubjectLevels()[i]);
+            Log.d(getClass().getSimpleName(), getSubjectLevels()[i]);
         }
 
-        return contentValuesArray;
+
+        return contentValues;
 
 
     }
 
     @Override
     public void onClick(View v) {
+        int update = getContentResolver().update(IBPlannerContract.UserIBDataEntry.CONTENT_URI,getSubjectData(), null, null);
+        Log.d(getClass().getSimpleName(), "Updated " + update);
+        if (update == 0){
+            ContentValues finalValues = getSubjectData();
+            finalValues.put(IBPlannerContract.UserIBDataEntry.IB_USERNAME_COLUMN, MainActivity.username);
+            getContentResolver().insert(IBPlannerContract.UserIBDataEntry.CONTENT_URI,finalValues);
+        }
         Intent intent = new Intent(this, MainActivity.class);
-        getContentResolver().bulkInsert(IBPlannerContract.UserIBDataEntry.CONTENT_URI, getSubjectData());
-        startActivity(intent);
+        supportNavigateUpTo(intent);
 
     }
-
 
 }

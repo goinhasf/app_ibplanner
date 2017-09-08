@@ -14,6 +14,9 @@ public class IBUser {
     Lang & Lit is a Group 1 Subject so it will be stored on the first index of this array */
     private IBSubject[] userIBSubjects;
 
+    public IBUser() {
+    }
+
     public IBUser(String name){
         this.name = name;
         userIBSubjects  = new IBSubject[6];

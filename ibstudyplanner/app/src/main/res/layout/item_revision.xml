@@ -11,15 +11,15 @@
         android:id="@+id/tv_subject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:tools="Subject"
         android:textAllCaps="true"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="22sp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginStart="16dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Subject" />
 
     <TextView
         android:id="@+id/tv_date_due_label"
@@ -60,7 +60,7 @@
         android:id="@+id/tv_revision_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="0dp"
         android:layout_marginStart="8dp"
         android:text="@string/revision"
         android:textAllCaps="true"
@@ -68,7 +68,8 @@
         android:textColor="@color/colorAccent"
         android:textSize="22sp"
         app:layout_constraintLeft_toRightOf="@+id/tv_subject"
-        app:layout_constraintTop_toTopOf="@+id/tv_subject" />
+        app:layout_constraintTop_toTopOf="@+id/tv_subject"
+        android:layout_marginTop="0dp" />
 
     <TextView
         android:id="@+id/tv_revision_time_label"
