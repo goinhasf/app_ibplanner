@@ -18,7 +18,7 @@ public class IBPlannerContract {
     public static final String AUTHORITY = "com.example.kiko.ibstudentplannerapp";
     public static final String DATABASE_NAME = "ibplannerdb";
     public static final Uri BASE_URI = Uri.parse("content://" + AUTHORITY).buildUpon().appendPath(DATABASE_NAME).build();
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
 
 
     public static final class UserIBDataEntry implements BaseColumns {
@@ -62,11 +62,48 @@ public class IBPlannerContract {
         // TODO 1. Add columns for new table.
         public static final String TABLE_NAME = "subjectdatatable";
 
-        public static final String TASK_TYPE = "task_type";
-        public static final String TASK_SUBJECT = "task_subject";
-        public static final String TASK_DATE_DUE = "task_date_due";
-        public static final String TASK_TIME_AT = "task_time_at";
-        public static final String TASK_TIME = "task_time";
+        public static final String TASK_TYPE_1 = "task_type_1";
+        public static final String TASK_TYPE_2 = "task_type_2";
+        public static final String TASK_TYPE_3 = "task_type_3";
+        public static final String TASK_TYPE_4 = "task_type_4";
+        public static final String TASK_TYPE_5 = "task_type_5";
+        public static final String TASK_TYPE_6 = "task_type_6";
+
+        public static final String TASK_SUBJECT_1 = "task_subject_1";
+        public static final String TASK_SUBJECT_2 = "task_subject_2";
+        public static final String TASK_SUBJECT_3 = "task_subject_3";
+        public static final String TASK_SUBJECT_4 = "task_subject_4";
+        public static final String TASK_SUBJECT_5 = "task_subject_5";
+        public static final String TASK_SUBJECT_6 = "task_subject_6";
+
+        public static final String FK_TASK_SUBJECT_1 = "fk_task_subject_1";
+        public static final String FK_TASK_SUBJECT_2 = "fk_task_subject_2";
+        public static final String FK_TASK_SUBJECT_3 = "fk_task_subject_3";
+        public static final String FK_TASK_SUBJECT_4 = "fk_task_subject_4";
+        public static final String FK_TASK_SUBJECT_5 = "fk_task_subject_5";
+        public static final String FK_TASK_SUBJECT_6 = "fk_task_subject_6";
+
+        public static final String TASK_DATE_DUE_1 = "task_date_due_1";
+        public static final String TASK_DATE_DUE_2 = "task_date_due_2";
+        public static final String TASK_DATE_DUE_3 = "task_date_due_3";
+        public static final String TASK_DATE_DUE_4 = "task_date_due_4";
+        public static final String TASK_DATE_DUE_5 = "task_date_due_5";
+        public static final String TASK_DATE_DUE_6 = "task_date_due_6";
+
+        public static final String TASK_TIME_AT_1 = "task_time_at_1";
+        public static final String TASK_TIME_AT_2 = "task_time_at_2";
+        public static final String TASK_TIME_AT_3 = "task_time_at_3";
+        public static final String TASK_TIME_AT_4 = "task_time_at_4";
+        public static final String TASK_TIME_AT_5 = "task_time_at_5";
+        public static final String TASK_TIME_AT_6 = "task_time_at_6";
+
+        public static final String TASK_TIME_1 = "task_time_1";
+        public static final String TASK_TIME_2 = "task_time_2";
+        public static final String TASK_TIME_3 = "task_time_3";
+        public static final String TASK_TIME_4 = "task_time_4";
+        public static final String TASK_TIME_5 = "task_time_5";
+        public static final String TASK_TIME_6 = "task_time_6";
+
 
 
     }

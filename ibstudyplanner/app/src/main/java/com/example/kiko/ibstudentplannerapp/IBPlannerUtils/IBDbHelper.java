@@ -10,6 +10,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class IBDbHelper extends SQLiteOpenHelper {
 
+    private static final String FOREIGN_KEY = "FOREIGN KEY";
+    private static final String REFERENCES = "REFERENCES";
+    private static final String CONSTRAINT = "CONSTRAINT";
+
 
     public IBDbHelper(Context context) {
         super(context,
@@ -40,12 +44,64 @@ public class IBDbHelper extends SQLiteOpenHelper {
 
         // TODO 2. Create SQL TABLE for Subject Data. Include FOREIGN KEY for each subject.
         db.execSQL("CREATE TABLE " + IBPlannerContract.IBSubjectsTasksEntry.TABLE_NAME + " (" +
-                IBPlannerContract.IBSubjectsTasksEntry.TASK_SUBJECT + " TEXT PRIMARY KEY NOT NULL, " +
-                IBPlannerContract.IBSubjectsTasksEntry.TASK_TYPE + " TEXT NOT NULL, " +
 
-                IBPlannerContract.IBSubjectsTasksEntry.TASK_DATE_DUE + " TEXT NOT NULL, " +
-                IBPlannerContract.IBSubjectsTasksEntry.TASK_TIME_AT + " TEXT, " +
-                IBPlannerContract.IBSubjectsTasksEntry.TASK_TIME + " TEXT)");
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_SUBJECT_1 + " TEXT NOT NULL, " +
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_SUBJECT_2 + " TEXT NOT NULL, " +
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_SUBJECT_3 + " TEXT NOT NULL, " +
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_SUBJECT_4 + " TEXT NOT NULL, " +
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_SUBJECT_5 + " TEXT NOT NULL, " +
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_SUBJECT_6 + " TEXT NOT NULL, " +
+
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_TYPE_1 + " TEXT NOT NULL, " +
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_TYPE_2 + " TEXT NOT NULL, " +
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_TYPE_3 + " TEXT NOT NULL, " +
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_TYPE_4 + " TEXT NOT NULL, " +
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_TYPE_5 + " TEXT NOT NULL, " +
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_TYPE_6 + " TEXT NOT NULL, " +
+
+
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_DATE_DUE_1 + " TEXT NOT NULL, " +
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_DATE_DUE_2 + " TEXT NOT NULL, " +
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_DATE_DUE_3 + " TEXT NOT NULL, " +
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_DATE_DUE_4 + " TEXT NOT NULL, " +
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_DATE_DUE_5 + " TEXT NOT NULL, " +
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_DATE_DUE_6 + " TEXT NOT NULL, " +
+
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_TIME_AT_1 + " TEXT, " +
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_TIME_AT_2 + " TEXT, " +
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_TIME_AT_3 + " TEXT, " +
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_TIME_AT_4 + " TEXT, " +
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_TIME_AT_5 + " TEXT, " +
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_TIME_AT_6 + " TEXT, " +
+
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_TIME_1 + " TEXT, " +
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_TIME_2 + " TEXT, " +
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_TIME_3 + " TEXT, " +
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_TIME_4 + " TEXT, " +
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_TIME_5 + " TEXT, " +
+                IBPlannerContract.IBSubjectsTasksEntry.TASK_TIME_6 + " TEXT, " +
+
+                createForeignKey(IBPlannerContract.IBSubjectsTasksEntry.FK_TASK_SUBJECT_1,
+                        IBPlannerContract.IBSubjectsTasksEntry.TASK_SUBJECT_1,
+                        IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_1_NAME_COLUMN, true) +
+                createForeignKey(IBPlannerContract.IBSubjectsTasksEntry.FK_TASK_SUBJECT_2,
+                        IBPlannerContract.IBSubjectsTasksEntry.TASK_SUBJECT_2,
+                        IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_2_NAME_COLUMN, true) +
+                createForeignKey(IBPlannerContract.IBSubjectsTasksEntry.FK_TASK_SUBJECT_3,
+                        IBPlannerContract.IBSubjectsTasksEntry.TASK_SUBJECT_3,
+                        IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_3_NAME_COLUMN, true) +
+                createForeignKey(IBPlannerContract.IBSubjectsTasksEntry.FK_TASK_SUBJECT_4,
+                        IBPlannerContract.IBSubjectsTasksEntry.TASK_SUBJECT_4,
+                        IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_4_NAME_COLUMN, true) +
+                createForeignKey(IBPlannerContract.IBSubjectsTasksEntry.FK_TASK_SUBJECT_5,
+                        IBPlannerContract.IBSubjectsTasksEntry.TASK_SUBJECT_5,
+                        IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_5_NAME_COLUMN, true) +
+                createForeignKey(IBPlannerContract.IBSubjectsTasksEntry.FK_TASK_SUBJECT_6,
+                        IBPlannerContract.IBSubjectsTasksEntry.TASK_SUBJECT_6,
+                        IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_6_NAME_COLUMN, false) +
+
+
+                ")");
     }
 
     @Override
@@ -60,6 +116,17 @@ public class IBDbHelper extends SQLiteOpenHelper {
         db.delete(IBPlannerContract.UserIBDataEntry.TABLE_NAME, null, null);
         db.delete(IBPlannerContract.IBSubjectsTasksEntry.TABLE_NAME, null, null);
 
+    }
+
+    private String createForeignKey(String constraint, String foreignKey, String reference, boolean appendMore) {
+
+        String comma = ", ";
+        String result = CONSTRAINT + "(" + constraint + ") " + FOREIGN_KEY + " (" + foreignKey + ") " + REFERENCES + " (" + reference + ")";
+
+        if (appendMore){
+            result += comma;
+        }
+        return result;
     }
 
 

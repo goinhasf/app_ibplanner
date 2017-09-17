@@ -26,7 +26,7 @@ public class IBPlannerContentProvider extends ContentProvider {
     public static final int CODE_SUBJECTS = 100;
 
     //Matcher code value to get subject specific data (
-    public static final int CODE_TASKS = 200;
+    public static final int CODE_ALL_TASKS = 200;
     public static final int CODE_ASSIGNMENTS = 201;
     public static final int CODE_EXAMS = 202;
 
@@ -44,7 +44,7 @@ public class IBPlannerContentProvider extends ContentProvider {
     private static UriMatcher buildUriMatcher() {
         UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         matcher.addURI(IBPlannerContract.AUTHORITY, IBPlannerContract.DATABASE_NAME + "/" + IBPlannerContract.UserIBDataEntry.CONTENT_PATH, CODE_SUBJECTS);
-
+        matcher.addURI(IBPlannerContract.AUTHORITY, IBPlannerContract.DATABASE_NAME + "/" + IBPlannerContract.IBSubjectsTasksEntry.CONTENT_PATH, CODE_ALL_TASKS);
         return matcher;
     }
 

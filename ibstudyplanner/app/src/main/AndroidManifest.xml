@@ -10,22 +10,27 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ChooseSubjectsActivity"
-            android:label="@string/chooser_subject_label"></activity>
+            android:label="@string/chooser_subject_label" />
 
         <provider
-            android:authorities="com.example.kiko.ibstudentplannerapp"
             android:name=".IBPlannerUtils.IBPlannerContentProvider"
-            android:exported="false"/>
+            android:authorities="com.example.kiko.ibstudentplannerapp"
+            android:exported="false" />
+
+        <activity
+            android:name=".AddNewTaskActivity"
+            android:label="@string/add_new_task"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

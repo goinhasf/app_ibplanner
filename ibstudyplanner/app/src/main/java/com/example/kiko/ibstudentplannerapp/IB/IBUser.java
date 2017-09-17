@@ -14,6 +14,8 @@ public class IBUser {
     Lang & Lit is a Group 1 Subject so it will be stored on the first index of this array */
     private IBSubject[] userIBSubjects;
 
+    public static int taskNumber;
+
     public IBUser() {
     }
 
@@ -36,6 +38,14 @@ public class IBUser {
         }
 
         return true;
+    }
+
+    public ArrayList<IBTask> getAllActiveTasks() {
+
+        for (IBSubject subject : userIBSubjects) {
+
+        }
+
     }
 
     public String getName() {
