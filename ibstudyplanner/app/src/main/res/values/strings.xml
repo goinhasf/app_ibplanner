@@ -38,6 +38,7 @@
     <string name="subject">Subject</string>
     <string name="save">Save</string>
     <string name="title_activity_add_new_task">\@string/add_new_task</string>
+    <string name="IB_subjects_spinner_prompt">IB Subjects</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
@@ -127,5 +128,6 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <string name="no_tasks">No Tasks you\'re free to go</string>
 
 </resources>

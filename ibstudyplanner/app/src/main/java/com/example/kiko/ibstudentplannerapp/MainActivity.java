@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG = ".MainActivity";
     private static final int LOADER_ID = 0;
     private static final String RESTART_KEY = "restart_key";
+
     private Cursor mCursor;
     private Loader<Cursor> mCursorLoader;
 
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity
 
     private static final int IB_SUBJECT_USERNAME_COLUMN_INDEX = 0;
 
-    private static IBUser mUserInstance;
+    public static IBUser mUserInstance;
     private FloatingActionButton fab;
     private MenuItem mUserProfileItem;
 
@@ -119,14 +120,18 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        mCursorLoader.forceLoad();
+
     }
 
     private boolean isUserFirstTime() {
         if (mUserInstance != null) {
             fab.setVisibility(View.INVISIBLE);
+            homeFragment.setVisibleViews(true);
             return false;
         } else {
             fab.setVisibility(View.VISIBLE);
+            homeFragment.setVisibleViews(false);
             return true;
         }
     }
@@ -171,9 +176,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.refresh_menu_item){
             FakeData.deleteAllData(this);
-            if (mCursorLoader != null) {
-                mCursorLoader.reset();
-            }
+            mCursorLoader.reset();
 
             mUserInstance = null;
             isUserFirstTime();
@@ -204,23 +207,28 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        if (data != null) {
+            if (data.getCount() != 0){
 
-        if (data != null || data.getCount() == 0) {
-            mCursor = data;
-            while (mCursor.moveToNext()) {
-                mUserInstance = new IBUser();
-                mUserInstance.setName(mCursor.getString(1));
-                IBSubject[] subjects = new IBSubject[6];
-                Log.d(TAG, Integer.toString(mCursor.getCount()));
-                for (int i = 0; i < 6; i++) {
-                    String subjectName = mCursor.getString(mCursor.getColumnIndex(subjectNameKEY[i]));
-                    String level = mCursor.getString(mCursor.getColumnIndex(subjectLevelKEY[i]));
-                    subjects[i] = new IBSubject(i, subjectName, level);
+                mCursor = data;
+                while (mCursor.moveToNext()) {
+                    mUserInstance = new IBUser();
+                    mUserInstance.setName(mCursor.getString(1));
+                    IBSubject[] subjects = new IBSubject[6];
+                    Log.d(TAG, Integer.toString(mCursor.getCount()));
+                    for (int i = 0; i < 6; i++) {
+                        String subjectName = mCursor.getString(mCursor.getColumnIndex(subjectNameKEY[i]));
+                        String level = mCursor.getString(mCursor.getColumnIndex(subjectLevelKEY[i]));
+                        subjects[i] = new IBSubject(i, subjectName, level);
+                    }
+                    mUserInstance.setUserIBSubjects(subjects);
+                    // Sends the data over to the recycler view at HomeFragment
+                    homeFragment.setRecyclerView(mUserInstance);
+                    homeFragment.setVisibleViews(true);
                 }
-                mUserInstance.setUserIBSubjects(subjects);
+                mCursor.close();
+                Log.e(TAG, "User object SUCCESSFULLY initialized.");
             }
-            mCursor.close();
-            Log.e(TAG, "User object SUCCESSFULLY initialized.");
         } else {
             isUserFirstTime();
             Log.e(TAG, "User object NOT initialized.");
@@ -229,7 +237,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        mCursor = null;
+        if (loader.getId() == mCursorLoader.getId()) {
+            mCursor = null;
+        }
     }
 
 

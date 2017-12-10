@@ -10,7 +10,7 @@ import java.sql.Date;
 public class IBTask {
 
     public static final int ASSIGNMENT_TASK_TYPE = 0;
-    public static final int REVISION_TASK_TYPE = 0;
+    public static final int REVISION_TASK_TYPE = 1;
 
     private int taskType;
     private String subjectName;
@@ -69,6 +69,9 @@ public class IBTask {
 
         public IBAssignment(String subjectName) {
             super(subjectName);
+
+            taskType = ASSIGNMENT_TASK_TYPE;
+
         }
 
         public int getProgress() {
@@ -95,18 +98,46 @@ public class IBTask {
 
     public class IBRevision extends IBTask {
 
-        int revisionTime;
+        // Revision time in minutes
+        private final int DEFAULT_REVISION_TIME = 25;
+        int revisionTime = DEFAULT_REVISION_TIME;
+
+        private String timeAt;
 
         public IBRevision(String subjectName) {
             super(subjectName);
+
+            taskType = REVISION_TASK_TYPE;
         }
 
-        public int getRevisionTime() {
-            return revisionTime;
+        public String getRevisionTimeHoursMinutes() {
+            double hours = revisionTime / 60;
+            double decimal = hours - (int) hours;
+            int minutes = (int)(60 * decimal);
+            String time = (int)hours + "h " + minutes + "minutes";
+
+            return time;
+
         }
 
-        public void setRevisionTime(int revisionTime) {
-            this.revisionTime = revisionTime;
+        public String getRevisionTimeMinutes() {
+
+            return Integer.toString(revisionTime);
+        }
+
+        public void setRevisionTimeMinutes(int revisionTimeMinutes) {
+            revisionTime = revisionTimeMinutes;
+        }
+        public void setRevisionTimeHours(int revisionTimeHours) {
+            revisionTime = revisionTimeHours*60;
+        }
+
+        public String getTimeAt() {
+            return timeAt;
+        }
+
+        public void setTimeAt(int hours, int minutes) {
+            this.timeAt = hours + ":" + minutes;
         }
     }
 }

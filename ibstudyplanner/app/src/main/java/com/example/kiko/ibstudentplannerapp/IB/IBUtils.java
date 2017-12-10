@@ -14,4 +14,8 @@ public class IBUtils {
     public static final String[] GROUP_4_SUBJECTS_NAMES = {};
     public static final String[] GROUP_5_SUBJECTS_NAMES = {};
     public static final String[] GROUP_6_SUBJECTS_NAMES = {};
+
+    public static String formatRevisionTime(String hours, String minutes) {
+        return hours + ":" + minutes;
+    }
 }

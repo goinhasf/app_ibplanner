@@ -71,4 +71,12 @@ public class IBSubject {
     public void setSubjectName(String subjectName) {
         this.subjectName = subjectName;
     }
+
+    public ArrayList<IBTask> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(ArrayList<IBTask> tasks) {
+        this.tasks = tasks;
+    }
 }

@@ -29,7 +29,6 @@
 
         <activity
             android:name=".AddNewTaskActivity"
-            android:label="@string/add_new_task"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 

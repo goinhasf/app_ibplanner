@@ -40,11 +40,19 @@ public class IBUser {
         return true;
     }
 
-    public ArrayList<IBTask> getAllActiveTasks() {
-
+    public ArrayList<IBTask> getAllActiveTasks() throws NullPointerException{
+        ArrayList<IBTask> allTasks = new ArrayList<>();
         for (IBSubject subject : userIBSubjects) {
-
+            for (IBTask task : subject.getTasks()){
+                allTasks.add(task);
+            }
         }
+
+        if (allTasks.isEmpty()) {
+            throw new NullPointerException("No active Tasks");
+        }
+
+        return allTasks;
 
     }
 

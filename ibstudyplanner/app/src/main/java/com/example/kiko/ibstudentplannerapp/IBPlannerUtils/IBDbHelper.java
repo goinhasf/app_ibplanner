@@ -83,21 +83,27 @@ public class IBDbHelper extends SQLiteOpenHelper {
 
                 createForeignKey(IBPlannerContract.IBSubjectsTasksEntry.FK_TASK_SUBJECT_1,
                         IBPlannerContract.IBSubjectsTasksEntry.TASK_SUBJECT_1,
+                        IBPlannerContract.IBSubjectsTasksEntry.TABLE_NAME,
                         IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_1_NAME_COLUMN, true) +
                 createForeignKey(IBPlannerContract.IBSubjectsTasksEntry.FK_TASK_SUBJECT_2,
                         IBPlannerContract.IBSubjectsTasksEntry.TASK_SUBJECT_2,
+                        IBPlannerContract.IBSubjectsTasksEntry.TABLE_NAME,
                         IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_2_NAME_COLUMN, true) +
                 createForeignKey(IBPlannerContract.IBSubjectsTasksEntry.FK_TASK_SUBJECT_3,
                         IBPlannerContract.IBSubjectsTasksEntry.TASK_SUBJECT_3,
+                        IBPlannerContract.IBSubjectsTasksEntry.TABLE_NAME,
                         IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_3_NAME_COLUMN, true) +
                 createForeignKey(IBPlannerContract.IBSubjectsTasksEntry.FK_TASK_SUBJECT_4,
                         IBPlannerContract.IBSubjectsTasksEntry.TASK_SUBJECT_4,
+                        IBPlannerContract.IBSubjectsTasksEntry.TABLE_NAME,
                         IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_4_NAME_COLUMN, true) +
                 createForeignKey(IBPlannerContract.IBSubjectsTasksEntry.FK_TASK_SUBJECT_5,
                         IBPlannerContract.IBSubjectsTasksEntry.TASK_SUBJECT_5,
+                        IBPlannerContract.IBSubjectsTasksEntry.TABLE_NAME,
                         IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_5_NAME_COLUMN, true) +
                 createForeignKey(IBPlannerContract.IBSubjectsTasksEntry.FK_TASK_SUBJECT_6,
                         IBPlannerContract.IBSubjectsTasksEntry.TASK_SUBJECT_6,
+                        IBPlannerContract.IBSubjectsTasksEntry.TABLE_NAME,
                         IBPlannerContract.UserIBDataEntry.IB_SUBJECT_GROUP_6_NAME_COLUMN, false) +
 
 
@@ -118,10 +124,10 @@ public class IBDbHelper extends SQLiteOpenHelper {
 
     }
 
-    private String createForeignKey(String constraint, String foreignKey, String reference, boolean appendMore) {
+    private String createForeignKey(String constraint, String foreignKey, String referenceTable, String referenceColumn, boolean appendMore) {
 
         String comma = ", ";
-        String result = CONSTRAINT + "(" + constraint + ") " + FOREIGN_KEY + " (" + foreignKey + ") " + REFERENCES + " (" + reference + ")";
+        String result = CONSTRAINT +  " " + constraint + " " + FOREIGN_KEY + " (" + foreignKey + ") " + REFERENCES + " " + referenceTable + " (" + referenceColumn + ")";
 
         if (appendMore){
             result += comma;
